@@ -33,8 +33,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8C1CC8E81BD70482003B2847 /* shader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader.frag; sourceTree = "<group>"; };
-		8C1CC8E91BD70482003B2847 /* shader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader.vert; sourceTree = "<group>"; };
+		8C1CC8E81BD70482003B2847 /* lighting.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = lighting.frag; sourceTree = "<group>"; };
+		8C1CC8E91BD70482003B2847 /* lighting.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = lighting.vert; sourceTree = "<group>"; };
+		8C3073871BE59D0F00680846 /* source.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = source.vert; sourceTree = "<group>"; };
+		8C3073881BE59DAA00680846 /* source.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = source.frag; sourceTree = "<group>"; };
 		8C3DA9A21BDC0F8900B66A17 /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cpp; sourceTree = "<group>"; };
 		8C3DA9A31BDC0F8900B66A17 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		8C3DA9B71BDC634100B66A17 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
@@ -73,8 +75,10 @@
 		8C1CC8E71BD70482003B2847 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
-				8C1CC8E81BD70482003B2847 /* shader.frag */,
-				8C1CC8E91BD70482003B2847 /* shader.vert */,
+				8C1CC8E81BD70482003B2847 /* lighting.frag */,
+				8C1CC8E91BD70482003B2847 /* lighting.vert */,
+				8C3073871BE59D0F00680846 /* source.vert */,
+				8C3073881BE59DAA00680846 /* source.frag */,
 			);
 			path = shaders;
 			sourceTree = "<group>";

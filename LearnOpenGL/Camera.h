@@ -31,6 +31,7 @@ public:
     inline glm::mat4 getViewMatrix() const { return glm::lookAt(camPosition, camPosition + camFront, camUp); }
     inline GLfloat getYaw() const { return camYaw; }
     inline GLfloat getPitch() const { return camPitch; }
+    inline GLfloat getFOV() const { return camFOV; }
     void processKeyboard(Direction dir, GLfloat deltaTime);
     void processMouse(GLfloat xoffset, GLfloat yoffset, GLboolean constrainPitch = true);
     void processScroll(GLfloat yoffset);

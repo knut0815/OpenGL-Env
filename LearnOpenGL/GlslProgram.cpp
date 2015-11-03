@@ -85,6 +85,7 @@ void GlslProgram::setUniformSampler2D(const std::string &samplerName, GLint loca
      * Note that we're using glUniform1i to set the location or texture unit of the uniform samplers.
      * By setting them via glUniform1i we make sure each uniform sampler corresponds to the proper texture unit.
      */
+    glActiveTexture(GL_TEXTURE0 + location);
     GLint uniformLocation = glGetUniformLocation(programID, samplerName.c_str());
     if (uniformLocation != -1) glUniform1i(uniformLocation, location);
 }

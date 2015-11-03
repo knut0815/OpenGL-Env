@@ -79,6 +79,7 @@ void Camera::init()
 {
     camYaw = -90.0f;
     camPitch = 0.0f;
+    camFOV = 45.0f;
 }
 
 void Camera::updateVectors()

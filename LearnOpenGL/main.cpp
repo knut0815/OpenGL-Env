@@ -123,7 +123,7 @@ int main(int argc, const char * argv[])
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
     
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     
     glewExperimental = GL_TRUE;                                     // We want to use more modern techniques for managing OpenGL
     if (glewInit() != GLEW_OK)                                      // Initialize GLEW, which manages function pointers for OpenGL
@@ -137,65 +137,52 @@ int main(int argc, const char * argv[])
     glEnable(GL_DEPTH_TEST);
     
     GLfloat vertices[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        0.5f, -0.5f, -0.5f,   1.0f, 0.0f,
-        0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,
+        0.5f, -0.5f, -0.5f,     0.0f,  0.0f, -1.0f,
+        0.5f,  0.5f, -0.5f,     0.0f,  0.0f, -1.0f,
+        0.5f,  0.5f, -0.5f,     0.0f,  0.0f, -1.0f,
+        -0.5f,  0.5f, -0.5f,    0.0f,  0.0f, -1.0f,
+        -0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,
         
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,    0.0f,  0.0f, 1.0f,
+        0.5f, -0.5f,  0.5f,     0.0f,  0.0f, 1.0f,
+        0.5f,  0.5f,  0.5f,     0.0f,  0.0f, 1.0f,
+        0.5f,  0.5f,  0.5f,     0.0f,  0.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,    0.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,    0.0f,  0.0f, 1.0f,
         
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,
         
-        0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-        0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
+        0.5f,  0.5f,  0.5f,     1.0f,  0.0f,  0.0f,
+        0.5f,  0.5f, -0.5f,     1.0f,  0.0f,  0.0f,
+        0.5f, -0.5f, -0.5f,     1.0f,  0.0f,  0.0f,
+        0.5f, -0.5f, -0.5f,     1.0f,  0.0f,  0.0f,
+        0.5f, -0.5f,  0.5f,     1.0f,  0.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,     1.0f,  0.0f,  0.0f,
         
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-        0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,    0.0f, -1.0f,  0.0f,
+        0.5f, -0.5f, -0.5f,     0.0f, -1.0f,  0.0f,
+        0.5f, -0.5f,  0.5f,     0.0f, -1.0f,  0.0f,
+        0.5f, -0.5f,  0.5f,     0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,    0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,    0.0f, -1.0f,  0.0f,
         
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+        -0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,
+        0.5f,  0.5f, -0.5f,     0.0f,  1.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,     0.0f,  1.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,     0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,    0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f
     };
     
-    glm::vec3 cubePositions[] = {
-        glm::vec3( 0.0f,  0.0f,  0.0f),
-        glm::vec3( 2.0f,  5.0f, -15.0f),
-        glm::vec3(-1.5f, -2.2f, -2.5f),
-        glm::vec3(-3.8f, -2.0f, -12.3f),
-        glm::vec3( 2.4f, -0.4f, -3.5f),
-        glm::vec3(-1.7f,  3.0f, -7.5f),
-        glm::vec3( 1.3f, -2.0f, -2.5f),
-        glm::vec3( 1.5f,  2.0f, -2.5f),
-        glm::vec3( 1.5f,  0.2f, -1.5f),
-        glm::vec3(-1.3f,  1.0f, -1.5f)  
-    };
-    
-    GLuint VAO, VBO;
+    GLuint VAO, cubeVBO;
     glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &cubeVBO);
     
     /*
      * A vertex array object (VAO) can be bound just like a vertex buffer object and any subsequent
@@ -210,7 +197,7 @@ int main(int argc, const char * argv[])
      * 3) Vertex buffer objects associated with vertex attributes by calls to glVertexAttribPointer
      */
     glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);                             // Any future buffer calls we make will be used to configure VBO
+    glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);                         // Any future buffer calls we make will be used to configure VBO
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
     /*
@@ -223,23 +210,40 @@ int main(int argc, const char * argv[])
      * 6) The offset
      * The data is pulled from the buffer that is currently bound to the GL_ARRAY_BUFFER targer (i.e. VBO)
      */
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
     
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(1);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);                               // Unbind the VBO (good practice); note that we must leave the EBO bound
     glBindVertexArray(0);
     
-    GlslProgram program;
-    program.setupProgramFromFile("shaders/shader.vert", "shaders/shader.frag");
+    
+    GLuint lightVAO;
+    glGenVertexArrays(1, &lightVAO);
+    glBindVertexArray(lightVAO);
 
+    glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);                         // We only need to bind to the VBO, the container's VBO's data already contains the correct data.
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);   // Set the vertex attributes (only position data for our lamp)
+    glEnableVertexAttribArray(0);
+    glBindVertexArray(0);
+    
+    
+    GlslProgram cubeProgram;
+    cubeProgram.setupProgramFromFile("shaders/lighting.vert", "shaders/lighting.frag");
+    
+    GlslProgram lightProgram;
+    lightProgram.setupProgramFromFile("shaders/source.vert", "shaders/source.frag");
+    
     Image tex0;
     tex0.loadImage("assets/container.jpg", 512, 512);
     
     Image tex1;
     tex1.loadImage("assets/awesomeface.png", 512, 512);
+    
+    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
     
     /*
      * Everything that follows is our "game" or "rendering" loop. This will keep executing
@@ -274,9 +278,12 @@ int main(int argc, const char * argv[])
         // Rendering starts here
         // ===============================
         
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);                       // A state-setting function that sets the clear color
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                               // A state-using function that clears the active buffer
-        program.begin();
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);                       // A state-setting function that sets the clear color
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);         // A state-using function that clears the active buffer
+        
+        
+        // =============================== Cube program begins
+        cubeProgram.begin();
         
         /* The default texture unit for a texture is 0, which is the default active texture unit so we
          * did not need to assign a location to this texture before binding it. If, however, we want to bind
@@ -285,13 +292,16 @@ int main(int argc, const char * argv[])
          * a bit by binding both textures to the corresponding texture unit and specifying which uniform 
          * sampler corresponds to which texture unit.
          */
-        glActiveTexture(GL_TEXTURE0);                               // Activate the texture unit first before binding texture
         tex0.bind();
-        program.setUniformSampler2D("tex0", 0);
+        cubeProgram.setUniformSampler2D("tex0", 0);
         
-        glActiveTexture(GL_TEXTURE1);
         tex1.bind();
-        program.setUniformSampler2D("tex1", 1);
+        cubeProgram.setUniformSampler2D("tex1", 1);
+        
+        cubeProgram.setUniform3f("uObjectColor", 1.0f, 0.5f, 0.31f);
+        cubeProgram.setUniform3f("uLightColor", 1.0f, 1.0f, 1.0f);
+        cubeProgram.setUniform3f("uLightPos", lightPos.x, lightPos.y, lightPos.z);
+        cubeProgram.setUniform1f("uCross", uCross);
         
         /*
          * The parameters of glm::perspective are as follows
@@ -299,29 +309,41 @@ int main(int argc, const char * argv[])
          * 2) The aspect ratio
          * 3 / 4) The near and far clipping planes
          */
-        glm::mat4 projection;
-        projection = glm::perspective(glm::radians(45.0f), WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
-        
-        program.setUniform1f("uCross", uCross);
+        glm::mat4 projection = glm::perspective(glm::radians(cam.getFOV()), WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 model;
+        glm::mat4 uModelViewProjection = projection * cam.getViewMatrix() * model;
+        cubeProgram.setUniform4x4Matrix("uModel", model);
+        cubeProgram.setUniform4x4Matrix("uModelViewProjection", uModelViewProjection);
         
         glBindVertexArray(VAO);
-        for(GLuint i = 0; i < 10; i++)
-        {
-            glm::mat4 model;
-            model = glm::translate(model, cubePositions[i]);
-            GLfloat angle = 20.0f * i;
-            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            glm::mat4 uModelViewProjection = projection * cam.getViewMatrix() * model;
-            
-            program.setUniform4x4Matrix("uModelViewProjection", uModelViewProjection);
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
-        glBindVertexArray(0);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        
         tex0.unbind();
         tex1.unbind();
         
-        program.end();
+        cubeProgram.end();
+        // =============================== Cube program ends
+    
         
+        // =============================== Light program begins
+        lightProgram.begin();
+        
+        model = glm::mat4();
+        model = glm::translate(model, lightPos);
+        model = glm::scale(model, glm::vec3(0.2f));
+        uModelViewProjection = projection * cam.getViewMatrix() * model;
+        lightProgram.setUniform4x4Matrix("uModelViewProjection", uModelViewProjection);
+        
+        glBindVertexArray(lightVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        
+        lightProgram.end();
+        // =============================== Light program ends
+        
+        
+        glBindVertexArray(0);
+        
+
         // ===============================
         // Rendering ends here
         // ===============================
@@ -330,7 +352,7 @@ int main(int argc, const char * argv[])
     }
     
     glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &cubeVBO);
     
     glfwTerminate();                                                // Clear any resources we've used
     std::cout << "Terminating the application." << std::endl;
