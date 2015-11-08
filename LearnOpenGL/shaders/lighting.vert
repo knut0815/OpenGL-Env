@@ -9,10 +9,12 @@ out VS_OUT
     vec2 texCoord;
     vec3 normal;
     vec3 worldPos;
+    vec3 worldCamPos;
 } vs_out;
 
 uniform mat4 uModelViewProjection;
 uniform mat4 uModel;
+uniform vec3 uViewPos;
 
 void main()
 {

@@ -106,7 +106,7 @@ int main(int argc, const char * argv[])
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);                  // Tell GLFW that we want to use version 3.3 of OpenGL
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // Use the core profile
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);                       // Don't let the user resize the window
+    //glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);                       // Don't let the user resize the window
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_SAMPLES, 4);
     
@@ -314,6 +314,7 @@ int main(int argc, const char * argv[])
         glm::mat4 uModelViewProjection = projection * cam.getViewMatrix() * model;
         cubeProgram.setUniform4x4Matrix("uModel", model);
         cubeProgram.setUniform4x4Matrix("uModelViewProjection", uModelViewProjection);
+        cubeProgram.setUniform3f("uViewPos", cam.getPositionVector().x, cam.getPositionVector().y, cam.getPositionVector().z);
         
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);

@@ -8,11 +8,13 @@ in VS_OUT
     vec2 texCoord;
     vec3 normal;
     vec3 worldPos;
+    vec3 worldCamPos;
 } fs_in;
 
 uniform vec3 uObjectColor;
 uniform vec3 uLightColor;
 uniform vec3 uLightPos;
+uniform vec3 uViewPos;
 uniform sampler2D tex0;
 uniform sampler2D tex1;
 uniform float uCross;
@@ -38,7 +40,13 @@ void main()
     float diffuseStrength = max(dot(n, dir), 0.0f); // If the angle is greater than 90 degrees, we don't want to return a negative value
     vec3 diffuse = diffuseStrength * uLightColor;
     
-    vec3 result = (ambient + diffuse) * uObjectColor;
+    float specularStrength = 0.5f;
+    vec3 viewDir = normalize(uViewPos - fs_in.worldPos);
+    vec3 reflectDir = reflect(-dir, n);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+    vec3 specular = specularStrength * spec * uLightColor;
+    
+    vec3 result = (ambient + diffuse + specular) * uObjectColor;
     color = vec4(result, 1.0f);
 #endif
     
