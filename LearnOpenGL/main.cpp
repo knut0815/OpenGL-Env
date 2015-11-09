@@ -35,7 +35,6 @@ GLfloat lastFrame = 0.0f;                                           // Time of l
 GLfloat lastX = WINDOW_WIDTH / 2;
 GLfloat lastY = WINDOW_HEIGHT / 2;
 bool firstMouse = true;
-float uCross = 0.2f;
 
 Camera cam;
 
@@ -84,12 +83,6 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 void calculateCameraMovement()
 {
-    if (keys[GLFW_KEY_LEFT])
-        uCross -= 0.1f;
-        if (uCross < 0.0f) uCross = 0.0f;
-    if (keys[GLFW_KEY_RIGHT])
-        uCross += 0.1f;
-        if (uCross > 1.0f) uCross = 1.0f;
     if (keys[GLFW_KEY_W])
         cam.processKeyboard(FORWARD, deltaTime);
     if (keys[GLFW_KEY_S])
@@ -136,48 +129,63 @@ int main(int argc, const char * argv[])
     glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);                  // Tell OpenGL the size of the rendering window
     glEnable(GL_DEPTH_TEST);
     
+    // Set up vertex data (and buffer(s)) and attribute pointers
     GLfloat vertices[] = {
-        -0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,
-        0.5f, -0.5f, -0.5f,     0.0f,  0.0f, -1.0f,
-        0.5f,  0.5f, -0.5f,     0.0f,  0.0f, -1.0f,
-        0.5f,  0.5f, -0.5f,     0.0f,  0.0f, -1.0f,
-        -0.5f,  0.5f, -0.5f,    0.0f,  0.0f, -1.0f,
-        -0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,
+        // Positions          // Normals           // Texture Coords
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+        0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
+        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
         
-        -0.5f, -0.5f,  0.5f,    0.0f,  0.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,     0.0f,  0.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,     0.0f,  0.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,     0.0f,  0.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,    0.0f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,    0.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+        0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
         
-        -0.5f,  0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,
-        -0.5f,  0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,
-        -0.5f,  0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
         
-        0.5f,  0.5f,  0.5f,     1.0f,  0.0f,  0.0f,
-        0.5f,  0.5f, -0.5f,     1.0f,  0.0f,  0.0f,
-        0.5f, -0.5f, -0.5f,     1.0f,  0.0f,  0.0f,
-        0.5f, -0.5f, -0.5f,     1.0f,  0.0f,  0.0f,
-        0.5f, -0.5f,  0.5f,     1.0f,  0.0f,  0.0f,
-        0.5f,  0.5f,  0.5f,     1.0f,  0.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+        0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
         
-        -0.5f, -0.5f, -0.5f,    0.0f, -1.0f,  0.0f,
-        0.5f, -0.5f, -0.5f,     0.0f, -1.0f,  0.0f,
-        0.5f, -0.5f,  0.5f,     0.0f, -1.0f,  0.0f,
-        0.5f, -0.5f,  0.5f,     0.0f, -1.0f,  0.0f,
-        -0.5f, -0.5f,  0.5f,    0.0f, -1.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f,    0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+        0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
+        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
         
-        -0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,
-        0.5f,  0.5f, -0.5f,     0.0f,  1.0f,  0.0f,
-        0.5f,  0.5f,  0.5f,     0.0f,  1.0f,  0.0f,
-        0.5f,  0.5f,  0.5f,     0.0f,  1.0f,  0.0f,
-        -0.5f,  0.5f,  0.5f,    0.0f,  1.0f,  0.0f,
-        -0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+        0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
+    };
+    
+    glm::vec3 cubePositions[] = {
+        glm::vec3( 0.0f,  0.0f,  0.0f),
+        glm::vec3( 2.0f,  5.0f, -15.0f),
+        glm::vec3(-1.5f, -2.2f, -2.5f),
+        glm::vec3(-3.8f, -2.0f, -12.3f),
+        glm::vec3( 2.4f, -0.4f, -3.5f),
+        glm::vec3(-1.7f,  3.0f, -7.5f),
+        glm::vec3( 1.3f, -2.0f, -2.5f),
+        glm::vec3( 1.5f,  2.0f, -2.5f),
+        glm::vec3( 1.5f,  0.2f, -1.5f),
+        glm::vec3(-1.3f,  1.0f, -1.5f)
     };
     
     GLuint VAO, cubeVBO;
@@ -210,11 +218,14 @@ int main(int argc, const char * argv[])
      * 6) The offset
      * The data is pulled from the buffer that is currently bound to the GL_ARRAY_BUFFER targer (i.e. VBO)
      */
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
     
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
+    
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);                               // Unbind the VBO (good practice); note that we must leave the EBO bound
     glBindVertexArray(0);
@@ -226,7 +237,7 @@ int main(int argc, const char * argv[])
 
     glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);                         // We only need to bind to the VBO, the container's VBO's data already contains the correct data.
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);   // Set the vertex attributes (only position data for our lamp)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);   // Set the vertex attributes (only position data for our lamp)
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
     
@@ -238,10 +249,10 @@ int main(int argc, const char * argv[])
     lightProgram.setupProgramFromFile("shaders/source.vert", "shaders/source.frag");
     
     Image tex0;
-    tex0.loadImage("assets/container.jpg", 512, 512);
+    tex0.loadImage("assets/diffuse_map.png", 500, 500);
     
     Image tex1;
-    tex1.loadImage("assets/awesomeface.png", 512, 512);
+    tex1.loadImage("assets/specular_map.png", 500, 500);
     
     glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
     
@@ -285,23 +296,35 @@ int main(int argc, const char * argv[])
         // =============================== Cube program begins
         cubeProgram.begin();
         
-        /* The default texture unit for a texture is 0, which is the default active texture unit so we
+        /* 
+         * The default texture unit for a texture is 0, which is the default active texture unit so we
          * did not need to assign a location to this texture before binding it. If, however, we want to bind
          * multiple textures simultaneously, we will need to manually assign texture units.
          * To use the second texture (and the first texture) we have to change the rendering procedure 
          * a bit by binding both textures to the corresponding texture unit and specifying which uniform 
          * sampler corresponds to which texture unit.
          */
-        tex0.bind();
-        cubeProgram.setUniformSampler2D("tex0", 0);
+        cubeProgram.setUniformSampler2D("material.diffuse", tex0, 0);
+        cubeProgram.setUniformSampler2D("material.specular", tex1, 1);
+
+        cubeProgram.setUniform1f("material.shininess", 32.0f);
+        cubeProgram.setUniform3f("light.position",  cam.getPositionVector().x,
+                                                    cam.getPositionVector().y,
+                                                    cam.getPositionVector().z);
+        cubeProgram.setUniform3f("light.ambient", 0.2f, 0.2f, 0.2f);
+        cubeProgram.setUniform3f("light.diffuse", 0.5f, 0.5f, 0.5f);
+        cubeProgram.setUniform3f("light.specular", 1.0f, 1.0f, 1.0f);
+        cubeProgram.setUniform1f("light.constant", 1.0f);
+        cubeProgram.setUniform1f("light.linear", 0.09f);
+        cubeProgram.setUniform1f("light.quadratic", 0.032f);
+        cubeProgram.setUniform3f("light.direction", cam.getFrontVector().x,
+                                                    cam.getFrontVector().y,
+                                                    cam.getFrontVector().z);
+        // Here, we avoid the need to calculate acos in the fragment shader
+        cubeProgram.setUniform1f("light.cutoff", glm::cos(glm::radians(12.5f)));
+        cubeProgram.setUniform1f("light.outerCutoff", glm::cos(glm::radians(17.5f)));
         
-        tex1.bind();
-        cubeProgram.setUniformSampler2D("tex1", 1);
-        
-        cubeProgram.setUniform3f("uObjectColor", 1.0f, 0.5f, 0.31f);
-        cubeProgram.setUniform3f("uLightColor", 1.0f, 1.0f, 1.0f);
-        cubeProgram.setUniform3f("uLightPos", lightPos.x, lightPos.y, lightPos.z);
-        cubeProgram.setUniform1f("uCross", uCross);
+        glBindVertexArray(VAO);
         
         /*
          * The parameters of glm::perspective are as follows
@@ -309,15 +332,22 @@ int main(int argc, const char * argv[])
          * 2) The aspect ratio
          * 3 / 4) The near and far clipping planes
          */
-        glm::mat4 projection = glm::perspective(glm::radians(cam.getFOV()), WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
         glm::mat4 model;
-        glm::mat4 uModelViewProjection = projection * cam.getViewMatrix() * model;
-        cubeProgram.setUniform4x4Matrix("uModel", model);
-        cubeProgram.setUniform4x4Matrix("uModelViewProjection", uModelViewProjection);
+        glm::mat4 uModelViewProjection;
+        glm::mat4 projection = glm::perspective(glm::radians(cam.getFOV()), WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
         cubeProgram.setUniform3f("uViewPos", cam.getPositionVector().x, cam.getPositionVector().y, cam.getPositionVector().z);
         
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        for(GLuint i = 0; i < 10; i++)
+        {
+            GLfloat angle = 20.0f * i;
+            model = glm::mat4();
+            model = glm::translate(model, cubePositions[i]);
+            model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
+            uModelViewProjection = projection * cam.getViewMatrix() * model;
+            cubeProgram.setUniform4x4Matrix("uModel", model);
+            cubeProgram.setUniform4x4Matrix("uModelViewProjection", uModelViewProjection);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
         
         tex0.unbind();
         tex1.unbind();

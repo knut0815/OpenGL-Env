@@ -90,6 +90,14 @@ void GlslProgram::setUniformSampler2D(const std::string &samplerName, GLint loca
     if (uniformLocation != -1) glUniform1i(uniformLocation, location);
 }
 
+void GlslProgram::setUniformSampler2D(const std::string &samplerName, const Image &img, GLint texUnit) const
+{
+    glActiveTexture(GL_TEXTURE0 + texUnit);
+    img.bind();
+    GLint uniformLocation = glGetUniformLocation(programID, samplerName.c_str());
+    if (uniformLocation != -1) glUniform1i(uniformLocation, texUnit);
+}
+
 // ===============================
 // Private member functions
 // ===============================

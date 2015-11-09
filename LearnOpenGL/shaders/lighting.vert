@@ -2,6 +2,7 @@
 
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 normal;
+layout (location = 2) in vec2 texCoord;
 
 out VS_OUT
 {
@@ -9,7 +10,6 @@ out VS_OUT
     vec2 texCoord;
     vec3 normal;
     vec3 worldPos;
-    vec3 worldCamPos;
 } vs_out;
 
 uniform mat4 uModelViewProjection;
@@ -27,6 +27,7 @@ void main()
      */
     mat3 normalMatrix = mat3(transpose(inverse(uModel)));
     vs_out.normal = normalMatrix * normal;
+    vs_out.texCoord = texCoord;
     vs_out.worldPos = vec3(uModel * vec4(position, 1.0f));
     
     gl_Position = uModelViewProjection * vec4(position, 1.0);

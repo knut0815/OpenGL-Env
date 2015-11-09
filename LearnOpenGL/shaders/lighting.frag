@@ -8,46 +8,70 @@ in VS_OUT
     vec2 texCoord;
     vec3 normal;
     vec3 worldPos;
-    vec3 worldCamPos;
 } fs_in;
 
-uniform vec3 uObjectColor;
-uniform vec3 uLightColor;
-uniform vec3 uLightPos;
+struct Material
+{
+    sampler2D diffuse;
+    sampler2D specular;
+    float shininess;
+};
+
+struct Light
+{
+    vec3 position;
+    
+    // Material properties
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+    
+    // Attenuation constants
+    float constant;
+    float linear;
+    float quadratic;
+    
+    // Spotlight control
+    vec3 direction;
+    float cutoff;
+    float outerCutoff;
+};
+
+uniform Material material;
+uniform Light light;
 uniform vec3 uViewPos;
-uniform sampler2D tex0;
-uniform sampler2D tex1;
-uniform float uCross;
 
 void main()
 {
-#ifdef USING_TEXTURES
-    /*
-     * You probably noticed that the texture is flipped upside-down! This happens because OpenGL expects
-     * the 0.0 coordinate on the y-axis to be on the bottom side of the image, but images usually have 0.0
-     * at the top of the y-axis. This is a small "hack" to fix the issue (for now).
-     */
-    vec2 flipY = vec2(fs_in.texCoord.x, 1.0 - fs_in.texCoord.y);
-    color = mix(texture(tex0, flipY), texture(tex1, flipY), uCross);
-#else
-    // The ambient term is just a small fraction of our light's color multiplied by our object's color
-    float ambientStrength = 0.1f;
-    vec3 ambient = ambientStrength * uLightColor;
+    // Calculate the ambient strength, which we always use
+    vec3 ambient            = light.ambient * vec3(texture(material.diffuse, fs_in.texCoord));
     
-    // The diffuse term is calculated by multiplying the surface normal by a direction vector pointing from the light source to the current fragment
-    vec3 n = normalize(fs_in.normal);
-    vec3 dir = normalize(uLightPos - fs_in.worldPos);
-    float diffuseStrength = max(dot(n, dir), 0.0f); // If the angle is greater than 90 degrees, we don't want to return a negative value
-    vec3 diffuse = diffuseStrength * uLightColor;
+    // Calculate the diffuse strength
+    vec3 norm               = normalize(fs_in.normal);
+    vec3 lightDir           = normalize(light.position - fs_in.worldPos);
+    float diffuseStrength   = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse            = light.diffuse * diffuseStrength * vec3(texture(material.diffuse, fs_in.texCoord));
     
-    float specularStrength = 0.5f;
-    vec3 viewDir = normalize(uViewPos - fs_in.worldPos);
-    vec3 reflectDir = reflect(-dir, n);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-    vec3 specular = specularStrength * spec * uLightColor;
+    // Calculate the specular strength
+    vec3 viewDir            = normalize(uViewPos - fs_in.worldPos);
+    vec3 reflectDir         = reflect(-lightDir, norm);
+    float specularStrength  = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    vec3 specular           = light.specular * specularStrength * vec3(texture(material.specular, fs_in.texCoord));
     
-    vec3 result = (ambient + diffuse + specular) * uObjectColor;
-    color = vec4(result, 1.0f);
-#endif
+    // Calculate the effect of our spotlight (with soft edges)
+    float theta         = dot(lightDir, normalize(-light.direction));
+    float epsilon       = light.cutoff - light.outerCutoff;
+    float intensity     = clamp((theta - light.outerCutoff) / epsilon, 0.0, 1.0);
+    diffuse             *= intensity;
+    specular            *= intensity;
     
+    // Calculate the attenuation factors for this fragment relative to the light position
+    float distance      = length(light.position - fs_in.worldPos);
+    float attenuation   = 1.0f / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+    ambient     *= attenuation;
+    diffuse     *= attenuation;
+    specular    *= attenuation;
+    
+    color = vec4(ambient + diffuse + specular, 1.0);
+
 }

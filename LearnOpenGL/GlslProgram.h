@@ -9,6 +9,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Image.h"
 
 class GlslProgram
 {
@@ -27,6 +28,7 @@ public:
     void setUniform4f(const std::string &uniformName, float v1, float v2, float v3, float v4) const;
     void setUniform4x4Matrix(const std::string &uniformName, const glm::mat4 &matrix) const;
     void setUniformSampler2D(const std::string &samplerName, GLint location) const;
+    void setUniformSampler2D(const std::string &samplerName, const Image &img, GLint texUnit) const;
     
 private:
     
