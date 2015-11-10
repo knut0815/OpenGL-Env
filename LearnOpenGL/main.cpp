@@ -188,6 +188,13 @@ int main(int argc, const char * argv[])
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
     
+    glm::vec3 pointLightPositions[] = {
+        glm::vec3( 0.7f,  0.2f,  2.0f),
+        glm::vec3( 2.3f, -3.3f, -4.0f),
+        glm::vec3(-4.0f,  2.0f, -12.0f),
+        glm::vec3( 0.0f,  0.0f, -3.0f)
+    };
+    
     GLuint VAO, cubeVBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &cubeVBO);
@@ -243,7 +250,7 @@ int main(int argc, const char * argv[])
     
     
     GlslProgram cubeProgram;
-    cubeProgram.setupProgramFromFile("shaders/lighting.vert", "shaders/lighting.frag");
+    cubeProgram.setupProgramFromFile("shaders/lighting.vert", "shaders/multilight.frag");
     
     GlslProgram lightProgram;
     lightProgram.setupProgramFromFile("shaders/source.vert", "shaders/source.frag");
@@ -253,8 +260,6 @@ int main(int argc, const char * argv[])
     
     Image tex1;
     tex1.loadImage("assets/specular_map.png", 500, 500);
-    
-    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
     
     /*
      * Everything that follows is our "game" or "rendering" loop. This will keep executing
@@ -293,36 +298,8 @@ int main(int argc, const char * argv[])
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);         // A state-using function that clears the active buffer
         
         
-        // =============================== Cube program begins
+        //=================================================================== Cube program begins
         cubeProgram.begin();
-        
-        /* 
-         * The default texture unit for a texture is 0, which is the default active texture unit so we
-         * did not need to assign a location to this texture before binding it. If, however, we want to bind
-         * multiple textures simultaneously, we will need to manually assign texture units.
-         * To use the second texture (and the first texture) we have to change the rendering procedure 
-         * a bit by binding both textures to the corresponding texture unit and specifying which uniform 
-         * sampler corresponds to which texture unit.
-         */
-        cubeProgram.setUniformSampler2D("material.diffuse", tex0, 0);
-        cubeProgram.setUniformSampler2D("material.specular", tex1, 1);
-
-        cubeProgram.setUniform1f("material.shininess", 32.0f);
-        cubeProgram.setUniform3f("light.position",  cam.getPositionVector().x,
-                                                    cam.getPositionVector().y,
-                                                    cam.getPositionVector().z);
-        cubeProgram.setUniform3f("light.ambient", 0.2f, 0.2f, 0.2f);
-        cubeProgram.setUniform3f("light.diffuse", 0.5f, 0.5f, 0.5f);
-        cubeProgram.setUniform3f("light.specular", 1.0f, 1.0f, 1.0f);
-        cubeProgram.setUniform1f("light.constant", 1.0f);
-        cubeProgram.setUniform1f("light.linear", 0.09f);
-        cubeProgram.setUniform1f("light.quadratic", 0.032f);
-        cubeProgram.setUniform3f("light.direction", cam.getFrontVector().x,
-                                                    cam.getFrontVector().y,
-                                                    cam.getFrontVector().z);
-        // Here, we avoid the need to calculate acos in the fragment shader
-        cubeProgram.setUniform1f("light.cutoff", glm::cos(glm::radians(12.5f)));
-        cubeProgram.setUniform1f("light.outerCutoff", glm::cos(glm::radians(17.5f)));
         
         glBindVertexArray(VAO);
         
@@ -337,7 +314,73 @@ int main(int argc, const char * argv[])
         glm::mat4 projection = glm::perspective(glm::radians(cam.getFOV()), WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
         cubeProgram.setUniform3f("uViewPos", cam.getPositionVector().x, cam.getPositionVector().y, cam.getPositionVector().z);
         
-        for(GLuint i = 0; i < 10; i++)
+        /*
+         * The default texture unit for a texture is 0, which is the default active texture unit so we
+         * did not need to assign a location to this texture before binding it. If, however, we want to bind
+         * multiple textures simultaneously, we will need to manually assign texture units.
+         * To use the second texture (and the first texture) we have to change the rendering procedure
+         * a bit by binding both textures to the corresponding texture unit and specifying which uniform
+         * sampler corresponds to which texture unit.
+         */
+        cubeProgram.setUniformSampler2D("material.diffuse", tex0, 0);
+        cubeProgram.setUniformSampler2D("material.specular", tex1, 1);
+        cubeProgram.setUniform1f("material.shininess", 32.0f);
+        
+        // Directional light
+        cubeProgram.setUniform3f("dirLight.direction", -0.2f, -1.0f, -0.3f);
+        cubeProgram.setUniform3f("dirLight.ambient", 0.05f, 0.05f, 0.05f);
+        cubeProgram.setUniform3f("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+        cubeProgram.setUniform3f("dirLight.specular", 0.5f, 0.5f, 0.5f);
+        
+        // Point light 1
+        cubeProgram.setUniform3f("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
+        cubeProgram.setUniform3f("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
+        cubeProgram.setUniform3f("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
+        cubeProgram.setUniform3f("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+        cubeProgram.setUniform1f("pointLights[0].constant", 1.0f);
+        cubeProgram.setUniform1f("pointLights[0].linear", 0.09);
+        cubeProgram.setUniform1f("pointLights[0].quadratic", 0.032);
+        
+        // Point light 2
+        cubeProgram.setUniform3f("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
+        cubeProgram.setUniform3f("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
+        cubeProgram.setUniform3f("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
+        cubeProgram.setUniform3f("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+        cubeProgram.setUniform1f("pointLights[1].constant", 1.0f);
+        cubeProgram.setUniform1f("pointLights[1].linear", 0.09);
+        cubeProgram.setUniform1f("pointLights[1].quadratic", 0.032);
+        
+        // Point light 3
+        cubeProgram.setUniform3f("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
+        cubeProgram.setUniform3f("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
+        cubeProgram.setUniform3f("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
+        cubeProgram.setUniform3f("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
+        cubeProgram.setUniform1f("pointLights[2].constant", 1.0f);
+        cubeProgram.setUniform1f("pointLights[2].linear", 0.09);
+        cubeProgram.setUniform1f("pointLights[2].quadratic", 0.032);
+        
+        // Point light 4
+        cubeProgram.setUniform3f("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
+        cubeProgram.setUniform3f("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
+        cubeProgram.setUniform3f("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
+        cubeProgram.setUniform3f("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
+        cubeProgram.setUniform1f("pointLights[3].constant", 1.0f);
+        cubeProgram.setUniform1f("pointLights[3].linear", 0.09);
+        cubeProgram.setUniform1f("pointLights[3].quadratic", 0.032);
+        
+        // Spotlight
+        cubeProgram.setUniform3f("spotLight.position", cam.getPositionVector().x, cam.getPositionVector().y, cam.getPositionVector().z);
+        cubeProgram.setUniform3f("spotLight.direction", cam.getFrontVector().x, cam.getFrontVector().y, cam.getFrontVector().z);
+        cubeProgram.setUniform3f("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+        cubeProgram.setUniform3f("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+        cubeProgram.setUniform3f("spotLight.specular", 1.0f, 1.0f, 1.0f);
+        cubeProgram.setUniform1f("spotLight.constant", 1.0f);
+        cubeProgram.setUniform1f("spotLight.linear", 0.09);
+        cubeProgram.setUniform1f("spotLight.quadratic", 0.032);
+        cubeProgram.setUniform1f("spotLight.cutoff", glm::cos(glm::radians(12.5f)));
+        cubeProgram.setUniform1f("spotLight.outerCutoff", glm::cos(glm::radians(15.0f)));
+        
+        for(GLuint i = 0; i < 10; ++i)
         {
             GLfloat angle = 20.0f * i;
             model = glm::mat4();
@@ -353,23 +396,26 @@ int main(int argc, const char * argv[])
         tex1.unbind();
         
         cubeProgram.end();
-        // =============================== Cube program ends
+        //=================================================================== Cube program ends
     
         
-        // =============================== Light program begins
+        //=================================================================== Light program begins
         lightProgram.begin();
         
-        model = glm::mat4();
-        model = glm::translate(model, lightPos);
-        model = glm::scale(model, glm::vec3(0.2f));
-        uModelViewProjection = projection * cam.getViewMatrix() * model;
-        lightProgram.setUniform4x4Matrix("uModelViewProjection", uModelViewProjection);
-        
         glBindVertexArray(lightVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        
+        for (GLuint i = 0; i < 4; ++i)
+        {
+            model = glm::mat4();
+            model = glm::translate(model, pointLightPositions[i]);
+            model = glm::scale(model, glm::vec3(0.2f));
+            uModelViewProjection = projection * cam.getViewMatrix() * model;
+            lightProgram.setUniform4x4Matrix("uModelViewProjection", uModelViewProjection);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
         
         lightProgram.end();
-        // =============================== Light program ends
+        //=================================================================== Light program ends
         
         
         glBindVertexArray(0);
@@ -385,7 +431,7 @@ int main(int argc, const char * argv[])
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &cubeVBO);
     
-    glfwTerminate();                                                // Clear any resources we've used
+    glfwTerminate();                                                
     std::cout << "Terminating the application." << std::endl;
     return 0;
 }

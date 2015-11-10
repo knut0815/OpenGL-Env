@@ -53,6 +53,7 @@
 		8CB9CDEF1BD947A200289E04 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		8CB9CDF01BD947A200289E04 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		8CB9CDF21BD94B0F00289E04 /* libSOIL.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSOIL.dylib; path = ../../../../../../opt/local/lib/libSOIL.dylib; sourceTree = "<group>"; };
+		8CE8417D1BF2872800659B69 /* multilight.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = multilight.frag; sourceTree = "<group>"; };
 		8CFC63D11BDAF06300B1F2A3 /* Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer.cpp; sourceTree = "<group>"; };
 		8CFC63D21BDAF06300B1F2A3 /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -79,6 +80,7 @@
 				8C1CC8E91BD70482003B2847 /* lighting.vert */,
 				8C3073871BE59D0F00680846 /* source.vert */,
 				8C3073881BE59DAA00680846 /* source.frag */,
+				8CE8417D1BF2872800659B69 /* multilight.frag */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
