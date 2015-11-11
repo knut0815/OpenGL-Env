@@ -313,7 +313,7 @@ int main(int argc, const char * argv[])
         glm::mat4 uModelViewProjection;
         glm::mat4 projection = glm::perspective(glm::radians(cam.getFOV()), WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
         cubeProgram.setUniform3f("uViewPos", cam.getPositionVector().x, cam.getPositionVector().y, cam.getPositionVector().z);
-        
+        ///
         /*
          * The default texture unit for a texture is 0, which is the default active texture unit so we
          * did not need to assign a location to this texture before binding it. If, however, we want to bind
