@@ -14,11 +14,11 @@ public:
     void loadImage(const std::string &imagePath, int imageWidth, int imageHeight);
     void bind() const;
     void unbind() const;
-    inline int getWidth() const { return width; }
-    inline int getHeight() const { return height; }
-    inline unsigned char* getPixelData() const { return pixelData; }
-    inline void clearPixelData() { if (pixelData) SOIL_free_image_data(pixelData); }
-    inline GLuint getTextureRef() const { return textureID; }
+    int getWidth() const { return width; }
+    int getHeight() const { return height; }
+    unsigned char* getPixelData() const { return pixelData; }
+    void clearPixelData() { if (pixelData) SOIL_free_image_data(pixelData); }
+    GLuint getTextureRef() const { return textureID; }
     
 private:
     

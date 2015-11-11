@@ -16,9 +16,9 @@ public:
     void draw();
     
     GLint getMaxNumVertAttribs();
-    inline int getWidth() const { return viewportWidth; }
-    inline int getHeight() const { return viewportHeight; }
-    inline GLFWwindow * getViewport() const { return viewport; }
+    int getWidth() const { return viewportWidth; }
+    int getHeight() const { return viewportHeight; }
+    GLFWwindow * getViewport() const { return viewport; }
     
 private:
     

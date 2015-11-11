@@ -11,10 +11,10 @@ public:
     Color();
     Color(float red, float green, float blue, float alpha = 255.0f);
     void set(float red, float green, float blue, float alpha);
-    inline float getRed() const { return r; }
-    inline float getGreen() const { return g; }
-    inline float getBlue() const { return b; }
-    inline float getAlpha() const { return a; }
+    float getRed() const { return r; }
+    float getGreen() const { return g; }
+    float getBlue() const { return b; }
+    float getAlpha() const { return a; }
 
 private:
     

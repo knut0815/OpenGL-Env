@@ -17,6 +17,9 @@
 		8CAC7B851BD70EFC006BFD5E /* BasicApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8CAC7B831BD70EFC006BFD5E /* BasicApp.cpp */; };
 		8CB9CDF11BD947A200289E04 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8CB9CDEF1BD947A200289E04 /* Image.cpp */; };
 		8CB9CDF31BD94B0F00289E04 /* libSOIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CB9CDF21BD94B0F00289E04 /* libSOIL.dylib */; };
+		8CE8417F1BF2B18500659B69 /* libassimp.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CE8417E1BF2B18500659B69 /* libassimp.3.1.1.dylib */; };
+		8CE841821BF2B28A00659B69 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8CE841801BF2B28A00659B69 /* Mesh.cpp */; };
+		8CE841851BF2BF7700659B69 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8CE841831BF2BF7700659B69 /* Model.cpp */; };
 		8CFC63D31BDAF06300B1F2A3 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8CFC63D11BDAF06300B1F2A3 /* Renderer.cpp */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +57,11 @@
 		8CB9CDF01BD947A200289E04 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		8CB9CDF21BD94B0F00289E04 /* libSOIL.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSOIL.dylib; path = ../../../../../../opt/local/lib/libSOIL.dylib; sourceTree = "<group>"; };
 		8CE8417D1BF2872800659B69 /* multilight.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = multilight.frag; sourceTree = "<group>"; };
+		8CE8417E1BF2B18500659B69 /* libassimp.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.1.1.dylib; path = ../../../../../../usr/local/Cellar/assimp/3.1.1/lib/libassimp.3.1.1.dylib; sourceTree = "<group>"; };
+		8CE841801BF2B28A00659B69 /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
+		8CE841811BF2B28A00659B69 /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mesh.h; sourceTree = "<group>"; };
+		8CE841831BF2BF7700659B69 /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
+		8CE841841BF2BF7700659B69 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		8CFC63D11BDAF06300B1F2A3 /* Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer.cpp; sourceTree = "<group>"; };
 		8CFC63D21BDAF06300B1F2A3 /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CE8417F1BF2B18500659B69 /* libassimp.3.1.1.dylib in Frameworks */,
 				8CB9CDF31BD94B0F00289E04 /* libSOIL.dylib in Frameworks */,
 				8C6B9B3C1BD442D300F345E1 /* libGLEW.1.11.0.dylib in Frameworks */,
 				8C6B9B3A1BD4428900F345E1 /* libglfw.3.1.dylib in Frameworks */,
@@ -88,6 +97,7 @@
 		8C6B9B241BD441E200F345E1 = {
 			isa = PBXGroup;
 			children = (
+				8CE8417E1BF2B18500659B69 /* libassimp.3.1.1.dylib */,
 				8CB9CDF21BD94B0F00289E04 /* libSOIL.dylib */,
 				8C6B9B3B1BD442D300F345E1 /* libGLEW.1.11.0.dylib */,
 				8C6B9B391BD4428900F345E1 /* libglfw.3.1.dylib */,
@@ -116,6 +126,10 @@
 				8CB9CDF01BD947A200289E04 /* Image.h */,
 				8C3DA9B71BDC634100B66A17 /* Camera.cpp */,
 				8C3DA9B81BDC634100B66A17 /* Camera.h */,
+				8CE841801BF2B28A00659B69 /* Mesh.cpp */,
+				8CE841811BF2B28A00659B69 /* Mesh.h */,
+				8CE841831BF2BF7700659B69 /* Model.cpp */,
+				8CE841841BF2BF7700659B69 /* Model.h */,
 				8CAC7B831BD70EFC006BFD5E /* BasicApp.cpp */,
 				8CAC7B841BD70EFC006BFD5E /* BasicApp.h */,
 				8C3DA9A21BDC0F8900B66A17 /* Color.cpp */,
@@ -182,12 +196,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CE841851BF2BF7700659B69 /* Model.cpp in Sources */,
 				8C3DA9B91BDC634100B66A17 /* Camera.cpp in Sources */,
 				8C6B9B3F1BD5E19700F345E1 /* GlslProgram.cpp in Sources */,
 				8CFC63D31BDAF06300B1F2A3 /* Renderer.cpp in Sources */,
 				8CB9CDF11BD947A200289E04 /* Image.cpp in Sources */,
 				8C3DA9A41BDC0F8900B66A17 /* Color.cpp in Sources */,
 				8C6B9B311BD441E200F345E1 /* main.cpp in Sources */,
+				8CE841821BF2B28A00659B69 /* Mesh.cpp in Sources */,
 				8CAC7B851BD70EFC006BFD5E /* BasicApp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,11 +297,13 @@
 					/opt/local/include,
 					/usr/local/Cellar/glew/1.11.0/include,
 					/usr/local/Cellar/glm/0.9.6.1/include,
+					/usr/local/Cellar/assimp/3.1.1/include/assimp,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/lib,
 					/usr/local/Cellar/glew/1.11.0/lib,
+					/usr/local/Cellar/assimp/3.1.1/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -300,11 +318,13 @@
 					/opt/local/include,
 					/usr/local/Cellar/glew/1.11.0/include,
 					/usr/local/Cellar/glm/0.9.6.1/include,
+					/usr/local/Cellar/assimp/3.1.1/include/assimp,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/lib,
 					/usr/local/Cellar/glew/1.11.0/lib,
+					/usr/local/Cellar/assimp/3.1.1/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
